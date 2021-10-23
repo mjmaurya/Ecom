@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 import {
+  Button,
   Collapse,
   Navbar,
   NavbarToggler,
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  NavbarText
+  NavLink
 } from 'reactstrap';
 
 const Header = (props) => {
@@ -20,39 +16,67 @@ const Header = (props) => {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <div className="container" color="light">
+    <div className="container-fluid" color="light">
+      {
+        localStorage.user!=='null' ?
+        localStorage.role === 'user' ?
+        <Navbar light expand="md">
+        <NavbarBrand href="/">MyGrocery</NavbarBrand>
+        <NavbarToggler onClick={toggle} />
+        <Collapse isOpen={isOpen} navbar>
+          <Nav className="mr-auto" navbar>
+            <NavItem>
+              <NavLink href="/allproducts">Products</NavLink>
+            </NavItem>
+          </Nav>
+        </Collapse>
+            <div className="d-flex">
+            <NavLink href="/login">
+            <Button onClick={()=> {localStorage.user=null
+            localStorage.role=""
+            }} className="btn-danger">Logout</Button>
+            </NavLink>
+            <NavLink href="/cart">
+            <Button className="btn-primary">Cart</Button>
+            </NavLink>
+            </div> 
+      </Navbar>
+      :
       <Navbar light expand="md">
         <NavbarBrand href="/">reactstrap</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
-            <NavItem>
-              <NavLink href="/components/">Components</NavLink>
+          <NavItem>
+              <NavLink href="/allproducts">Products</NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink href="#">GitHub</NavLink>
-            </NavItem>
-            <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle nav caret>
-                Options
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem>
-                  Option 1
-                </DropdownItem>
-                <DropdownItem>
-                  Option 2
-                </DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>
-                  Reset
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
           </Nav>
-          <NavbarText>Simple Text</NavbarText>
         </Collapse>
+        </Navbar>
+        :
+        <Navbar light expand="md">
+        <NavbarBrand href="/">reactstrap</NavbarBrand>
+        <NavbarToggler onClick={toggle} />
+        <Collapse isOpen={isOpen} navbar>
+          <Nav className="mr-auto" navbar>
+          <NavItem>
+              <NavLink href="/allproducts">Products</NavLink>
+            </NavItem>
+          </Nav>
+          <div className="d-flex" style={{alignItems:'right'}}>
+            <NavLink href="/login">
+            <Button className="btn-danger">Login</Button>
+            </NavLink>
+            <NavLink href="/register">
+            <Button className="btn-primary">Register</Button>
+            </NavLink>
+            </div>
+        </Collapse>
+            
+          
       </Navbar>
+      }
+      
     </div>
   );
 }
